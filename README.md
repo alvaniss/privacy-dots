@@ -1,6 +1,6 @@
 # Privacy Dots
   
-Displays the status of your microphone, camera, and location with beautiful colored dots.
+Displays the status of your microphone, camera, location and screen sharing with beautiful colored dots.
 
 ![Status dots displayed in Waybar showing microphone, camera, location and screen sharing indicators in green, orange, blue and purple](./assets/privacy-dots.png)
 
