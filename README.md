@@ -37,7 +37,7 @@ Also I want to note that I don't have a laptop on which I can test this script a
 ```jsonc
 {
     "custom/privacydots": {
-        "exec": "/path/to/script/privacydots.sh",
+        "exec": "/path/to/script/privac_ydots.sh",
         "return-type": "json",
         "interval": 3,
         "format": "{text}",
