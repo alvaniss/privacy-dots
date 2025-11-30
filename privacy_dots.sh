@@ -124,9 +124,9 @@ if [[ "$scr" -eq 1 ]]; then
     |   $JQ_BIN -r '
         [ .[]
           | select(.type=="PipeWire:Interface:Node")
-          | select((.info.props."media.class"=="Stream/Input/Audio"))
+          | select((.info.props."media.class"=="Stream/Input/Video") or (.info.props."media.name"=="gsr-default_output"))
           | select((.info.state=="running") or (.state=="running"))
-          | .info.props["application.process.binary"]
+          | .info.props["media.name"]
         ] | unique | join(", ")
       ' 2>/dev/null || echo ""
     )"
