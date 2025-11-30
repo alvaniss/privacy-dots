@@ -17,7 +17,7 @@ The backend script polls status information every 3 seconds by default. It provi
 
 ## Installation for Waybar
 
-1. Download the script and place it into your scripts folder: [privacydots.sh](https://github.com/alvaniss/privacy-dots/blob/main/privacydots.sh)
+1. Download the script and place it into your scripts folder: [privacy_dots.sh](https://github.com/alvaniss/privacy-dots/blob/main/privacy_dots.sh)
 
 2. Add the module to your waybar config:
 
