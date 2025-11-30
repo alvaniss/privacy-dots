@@ -110,7 +110,7 @@ if command -v "$PW_DUMP_CMD" >/dev/null 2>&1 && command -v "$JQ_BIN" >/dev/null 
             | select(.info?.props?)
             | select(
                 (.info.props["media.name"]? // "")
-                | test("^(xdph-streaming|gsr-default)")
+                | test("^(xdph-streaming|gsr-default|game capture)")
             )
           ]
           | (if length > 0 then true else false end)
@@ -124,7 +124,7 @@ if [[ "$scr" -eq 1 ]]; then
     |   $JQ_BIN -r '
         [ .[]
           | select(.type=="PipeWire:Interface:Node")
-          | select((.info.props."media.class"=="Stream/Input/Video") or (.info.props."media.name"=="gsr-default_output"))
+          | select((.info.props."media.class"=="Stream/Input/Video") or (.info.props."media.name"=="gsr-default_output") or (.info.props."media.name"=="game capture"))
           | select((.info.state=="running") or (.state=="running"))
           | .info.props["media.name"]
         ] | unique | join(", ")
