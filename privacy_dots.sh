@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# dependencies: pipewire (pw-dump), v4l2loopback-dkms, jq, dbus-send (dbus)
+set -euo pipefail
+
+JQ_BIN="${JQ:-jq}"
+PW_DUMP_CMD="${PW_DUMP:-pw-dump}"
+# not used but kept if were needed in some case
+DBUS_SEND="${DBUS_SEND:-dbus-send}"
+
+mic=0
+cam=0
+loc=0
+
+# mic & camera
+if command -v "$PW_DUMP_CMD" >/dev/null 2>&1 && command -v "$JQ_BIN" >/dev/null 2>&1; then
+  dump="$($PW_DUMP_CMD 2>/dev/null || true)"
+
+  mic="$(
+    printf '%s' "$dump" \
+    | $JQ_BIN -r '
+      [ .[]
+        | select(.type=="PipeWire:Interface:Node")
+        | select((.info.props."media.class"=="Audio/Source" or .info.props."media.class"=="Audio/Source/Virtual"))
+        | select((.info.state=="running") or (.state=="running"))
+      ] | (if length>0 then 1 else 0 end)
+    ' 2>/dev/null || echo 0
+  )"
+
+  if command -v fuser >/dev/null 2>&1; then
+      cam=0
+      for dev in /dev/video*; do
+          if [ -e "$dev" ] && fuser "$dev" >/dev/null 2>&1; then
+              cam=1
+              break
+          fi
+      done
+  else
+      cam=0
+  fi
+
+fi
+
+# location
+if command -v gdbus >/dev/null 2>&1; then
+  loc="$(
+    # Check if any geoclue processes exist besides /usr/lib/geoclue and grep
+    if ps aux | grep [g]eoclue >/dev/null 2>&1; then
+      echo 1
+    else
+      echo 0
+    fi
+  )"
+fi
+
+green="#30D158"
+orange="#FF9F0A"
+blue="#0A84FF"
+
+dot() {
+  local on="$1" color="$2"
+  if [[ "$on" -eq 1 ]]; then
+    printf '<span foreground="%s">●</span>' "$color"
+  else
+    printf ''
+  fi
+}
+
+
+dots=()
+mic_dot="$(dot "$mic" "$green")"; [[ -n "$mic_dot" ]] && dots+=("$mic_dot")
+cam_dot="$(dot "$cam" "$orange")"; [[ -n "$cam_dot" ]] && dots+=("$cam_dot")
+loc_dot="$(dot "$loc" "$blue")"; [[ -n "$loc_dot" ]] && dots+=("$loc_dot")
+
+text="${dots[*]}"
+tooltip="Mic: $([[ $mic -eq 1 ]] && echo on || echo off)  |  Cam: $([[ $cam -eq 1 ]] && echo on || echo off)  |  Location: $([[ $loc -eq 1 ]] && echo on || echo off)"
+classes="privacydot"
+[[ $mic -eq 1 ]] && classes="$classes mic-on" || classes="$classes mic-off"
+[[ $cam -eq 1 ]] && classes="$classes cam-on" || classes="$classes cam-off"
+[[ $loc -eq 1 ]] && classes="$classes loc-on" || classes="$classes loc-off"
+
+jq -c -n --arg text "$text" --arg tooltip "$tooltip" --arg class "$classes" \
+  '{text:$text, tooltip:$tooltip, class:$class}'
