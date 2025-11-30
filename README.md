@@ -64,3 +64,4 @@ Also I want to note that I don't have a laptop on which I can test this script a
 
 - [ ] Add which apps use those features to the tooltip
 - [ ] Add more installation guides for different bars
+- [ ] Add an indicator if screen is being recorded/shared
