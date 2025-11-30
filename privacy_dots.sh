@@ -43,7 +43,6 @@ fi
 # location
 if command -v gdbus >/dev/null 2>&1; then
   loc="$(
-    # Check if any geoclue processes exist besides /usr/lib/geoclue and grep
     if ps aux | grep [g]eoclue >/dev/null 2>&1; then
       echo 1
     else
