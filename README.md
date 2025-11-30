@@ -2,24 +2,19 @@
   
 Displays the status of your microphone, camera, and location with beautiful colored dots.
 
-![Status dots displayed in Waybar showing microphone, camera, and location indicators in green, orange, and blue](./assets/privacy-dots.png)
+![Status dots displayed in Waybar showing microphone, camera, location and screen sharing indicators in green, orange, blue and purple](./assets/privacy-dots.png)
 
 ## Capabilities
 
-- **Mic Status:** Shows a green dot when any microphone is in use.
-- **Cam Status:** Shows an orange dot when any camera is active.
-- **Loc Status:** Shows a blue dot when location services are in use.
+- **Microphone Status:** Shows a green dot when any microphone is in use.
+- **Camera Status:** Shows an orange dot when any camera is active.
+- **Location Status:** Shows a blue dot when location services are in use.
+- **Screen Status:** Shows a purple dot when screen sharing is active.
 - **Easy to Customize:** Add new statuses or change colors easily. The functionality is handled by a simple Bash script, and styling is managed with CSS.
 
 ## Defaults
 
 The backend script polls status information every 3 seconds by default. It provides formatted text, tooltips, and styling classes, which you can use with any bar to display.
-
-## Notes
-
-This fork improves the original script by adding an actually working location usage tracker and rewriting the camera tracker, which can now be triggered even by a virtual webcam. And as I use Waybar, guide for it is the only one that's present.
-
-Also I want to note that I don't have a laptop on which I can test this script and I'm forced to rely on using my phone as camera to test the camera tracker and `/usr/lib/geoclue-2.0/demos/agent` as a geolocation trigger. I can not guarantee that it fully works with the actual hardware modules. 
 
 ## Dependencies
 
@@ -58,10 +53,20 @@ Also I want to note that I don't have a laptop on which I can test this script a
 }
 ```
 
+## Notes
+
+- This fork improves the original script by adding an actually working location usage tracker and rewriting the camera tracker, which can now be triggered even by a virtual webcam.
+
+- As I use Waybar, guide for it is the only one that's present.
+
+- I don't have a laptop on which I can test this script and I'm forced to rely on using my phone as camera to test the camera tracker and `/usr/lib/geoclue-2.0/demos/agent` as a geolocation trigger. I can not guarantee that it fully works with the actual hardware modules.
+
+- All indicators tested and proved to be working with `OBS`, `gpu-screen-recorder`, `Discord` and `Telegram`. Screen sharing indicator does not work when sharing a specific tab in the web version of Discord in the same browser. 
+
 ## TODO
 
 (PRs are more than welcome btw)
 
 - [ ] Add which apps use those features to the tooltip
 - [ ] Add more installation guides for different bars
-- [ ] Add an indicator if screen is being recorded/shared
+- [x] Add an indicator if screen is being recorded/shared

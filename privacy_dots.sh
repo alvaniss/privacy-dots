@@ -10,6 +10,7 @@ DBUS_SEND="${DBUS_SEND:-dbus-send}"
 mic=0
 cam=0
 loc=0
+scr=0
 
 # mic & camera
 if command -v "$PW_DUMP_CMD" >/dev/null 2>&1 && command -v "$JQ_BIN" >/dev/null 2>&1; then
@@ -51,9 +52,31 @@ if command -v gdbus >/dev/null 2>&1; then
   )"
 fi
 
+# screen sharing
+if command -v "$PW_DUMP_CMD" >/dev/null 2>&1 && command -v "$JQ_BIN" >/dev/null 2>&1; then
+  if [[ -z "${dump:-}" ]]; then
+    dump="$($PW_DUMP_CMD 2>/dev/null || true)"
+  fi
+
+  scr="$(
+      printf '%s' "$dump" \
+      | $JQ_BIN -e '
+          [ .[]
+            | select(.info?.props?)
+            | select(
+                (.info.props["media.name"]? // "")
+                | test("^(xdph-streaming|gsr-default)")
+            )
+          ]
+          | (if length > 0 then true else false end)
+        ' >/dev/null && echo 1 || echo 0
+    )"
+fi
+
 green="#30D158"
 orange="#FF9F0A"
 blue="#0A84FF"
+purple="#9b32fa"
 
 dot() {
   local on="$1" color="$2"
@@ -64,18 +87,20 @@ dot() {
   fi
 }
 
-
 dots=()
 mic_dot="$(dot "$mic" "$green")"; [[ -n "$mic_dot" ]] && dots+=("$mic_dot")
 cam_dot="$(dot "$cam" "$orange")"; [[ -n "$cam_dot" ]] && dots+=("$cam_dot")
 loc_dot="$(dot "$loc" "$blue")"; [[ -n "$loc_dot" ]] && dots+=("$loc_dot")
+scr_dot="$(dot "$scr" "$purple")"; [[ -n "$scr_dot" ]] && dots+=("$scr_dot")
 
 text="${dots[*]}"
-tooltip="Mic: $([[ $mic -eq 1 ]] && echo on || echo off)  |  Cam: $([[ $cam -eq 1 ]] && echo on || echo off)  |  Location: $([[ $loc -eq 1 ]] && echo on || echo off)"
+tooltip="Mic: $([[ $mic -eq 1 ]] && echo on || echo off)  |  Cam: $([[ $cam -eq 1 ]] && echo on || echo off)  |  Location: $([[ $loc -eq 1 ]] && echo on || echo off)  |  Screen: $([[ $scr -eq 1 ]] && echo on || echo off)"
+
 classes="privacydot"
 [[ $mic -eq 1 ]] && classes="$classes mic-on" || classes="$classes mic-off"
 [[ $cam -eq 1 ]] && classes="$classes cam-on" || classes="$classes cam-off"
 [[ $loc -eq 1 ]] && classes="$classes loc-on" || classes="$classes loc-off"
+[[ $scr -eq 1 ]] && classes="$classes scr-on" || classes="$classes scr-off"
 
 jq -c -n --arg text "$text" --arg tooltip "$tooltip" --arg class "$classes" \
   '{text:$text, tooltip:$tooltip, class:$class}'
