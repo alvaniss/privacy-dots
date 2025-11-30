@@ -1,6 +1,6 @@
 # Privacy Dots
   
-Displays the status of your microphone, camera, location and screen sharing with beautiful colored dots.
+Script that displays the status of your microphone, camera, location and screen sharing with colored dots along with which apps are using them.
 
 ![Status dots displayed in Waybar showing microphone, camera, location and screen sharing indicators in green, orange, blue and purple](./assets/privacy-dots.png)
 
@@ -67,6 +67,6 @@ The backend script polls status information every 3 seconds by default. It provi
 
 (PRs are more than welcome btw)
 
-- [ ] Add which apps use those features to the tooltip
 - [ ] Add more installation guides for different bars
+- [x] Add which apps use those features to the tooltip
 - [x] Add an indicator if screen is being recorded/shared
