@@ -29,16 +29,18 @@ The backend script polls status information every 3 seconds by default. It provi
 
 Install from AUR with your helper of choice (example uses `yay`):
 
-```bash
+```shell
 yay -S privacy-dots
 ```
 
 ### Manual
 
-```bash
+```shell
 cd /path/to/script/
 
 curl -O https://github.com/alvaniss/privacy-dots/privacy_dots.sh
+
+chmod +x privacy_dots.sh
 ```
 
 ## Adding to Waybar
@@ -47,7 +49,7 @@ curl -O https://github.com/alvaniss/privacy-dots/privacy_dots.sh
 
 ```jsonc
 {
-    "custom/privacydots": {
+    "custom/privacy-dots": {
         "exec": "/path/to/script/privacy_dots.sh", // or if installed from AUR: "exec": "privacy-dots",
         "return-type": "json",
         "interval": 3,
@@ -62,13 +64,13 @@ curl -O https://github.com/alvaniss/privacy-dots/privacy_dots.sh
 You can add this module to any section (`modules-left`, `modules-center`, or `modules-right`) according to your preference. For example, to add it to the center:
 
 ```jsonc
-"modules-center": ["clock", "custom/privacydots"]
+"modules-center": ["clock", "custom/privacy-dots"]
 ```
 
 2. Add this module style to `~/.config/waybar/style.css` (optional):
 
 ```css
-#custom-privacydots {
+#custom-privacy-dots {
   padding: 0 10px;
   font-size: 12px;
   letter-spacing: 3px;
