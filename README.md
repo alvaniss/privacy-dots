@@ -38,7 +38,7 @@ yay -S privacy-dots
 ```shell
 cd /path/to/script/
 
-curl -O https://github.com/alvaniss/privacy-dots/privacy_dots.sh
+curl -O https://raw.githubusercontent.com/alvaniss/privacy-dots/refs/heads/main/privacy_dots.sh
 
 chmod +x privacy_dots.sh
 ```
