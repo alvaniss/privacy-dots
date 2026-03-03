@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+
+# Copyright (C) 2026 alvaniss
+#
+# This file is part of privacy-dots.
+#
+# This program is free software licensed under the GNU General Public License v3.0.
+# See the LICENSE file for details.
+
 # dependencies: pipewire (pw-dump), v4l2loopback-dkms, jq, dbus-send (dbus)
 set -euo pipefail
 
