@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://github.com/alvaniss/mc-check"><img alt="GitHub License" src="https://img.shields.io/github/license/alvaniss/privacy-dots"></a>
+  <a href="https://github.com/alvaniss/mc-check"><img alt="GitHub Created At" src="https://img.shields.io/github/created-at/alvaniss/privacy-dots"></a>
+  <a href="https://github.com/alvaniss/mc-check"><img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/alvaniss/privacy-dots"></a>
+</p>
+
 # Privacy Dots
   
 Script that displays the status of your microphone, camera, location and screen sharing with colored dots along with which apps are using them.
@@ -37,9 +43,7 @@ yay -S privacy-dots
 
 ```shell
 cd /path/to/script/
-
 curl -O https://raw.githubusercontent.com/alvaniss/privacy-dots/refs/heads/main/privacy_dots.sh
-
 chmod +x privacy_dots.sh
 ```
 
